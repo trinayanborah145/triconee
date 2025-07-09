@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Lightbulb, PenTool, Code, Rocket, TestTube, Users } from 'lucide-react';
 
 const Process: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
+  // Intersection Observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -20,6 +22,44 @@ const Process: React.FC = () => {
     elements?.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
+  }, []);
+
+  // Scroll progress calculation
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      
+      const section = sectionRef.current;
+      const windowHeight = window.innerHeight;
+      const sectionHeight = section.offsetHeight;
+      const sectionTop = section.offsetTop;
+      const scrollPosition = window.scrollY;
+      
+      // Calculate progress (0 to 1)
+      const start = sectionTop - windowHeight * 0.5;
+      const end = sectionTop + sectionHeight - windowHeight * 0.5;
+      const scrollRange = end - start;
+      
+      let progress = 0;
+      if (scrollPosition <= start) {
+        progress = 0; // Not yet reached the section
+      } else if (scrollPosition >= end) {
+        progress = 1; // Scrolled past the section
+      } else {
+        progress = (scrollPosition - start) / scrollRange; // In the section
+      }
+      
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    handleScroll(); // Initial calculation
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   const steps = [
@@ -93,8 +133,16 @@ const Process: React.FC = () => {
 
         {/* Timeline */}
         <div className="relative">
-          {/* Vertical Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-cyan-400 to-blue-500 hidden lg:block"></div>
+          {/* Vertical Line with Progress */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-white/20 hidden lg:block overflow-hidden">
+            <div 
+              className="absolute bottom-0 left-0 w-full bg-gradient-to-b from-cyan-400 to-blue-500 transition-all duration-100 ease-out origin-bottom"
+              style={{
+                height: `${Math.min(100, Math.max(0, scrollProgress * 100))}%`,
+                transform: `scaleY(${scrollProgress})`,
+              }}
+            ></div>
+          </div>
 
           {/* Process Steps */}
           <div className="space-y-16">

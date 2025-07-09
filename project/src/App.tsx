@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
@@ -6,7 +6,6 @@ import Portfolio from './components/Portfolio';
 import Process from './components/Process';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
-import Blog from './components/Blog';
 import Navbar from './components/Navbar';
 import LoadingAnimation from './components/LoadingAnimation';
 import CustomCursor from './components/CustomCursor';
@@ -65,7 +64,6 @@ function App() {
       <Portfolio />
       <Process />
       <Testimonials />
-      <Blog />
       <Contact />
     </div>
   );

@@ -11,9 +11,9 @@ const About: React.FC = () => {
   });
 
   const targetValues = {
-    projects: 150,
-    clients: 50,
-    years: 5,
+    projects: 15,
+    clients: 10,
+    years: 1,
     support: 24
   };
 
@@ -88,10 +88,10 @@ const About: React.FC = () => {
           <div className="animate-on-scroll">
             <h3 className="text-3xl font-bold text-white mb-6">Our Story</h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              Founded in 2019, Tricone Digital Services emerged from a simple belief: that exceptional design and cutting-edge technology should work seamlessly together. What started as a small team of passionate developers has grown into a full-service digital agency.
+              Founded in 2024, Tricone Digital Services emerged from a simple belief: that exceptional design and cutting-edge technology should work seamlessly together. In a short period of time, we've been able to gain the trust of numerous businesses with our professionalism and commitment to excellence. What started as a small team of passionate developers has grown into a full-service digital agency.
             </p>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              Based in Jorhat, Assam, we've helped over 150 businesses transform their digital presence, from startups looking to make their mark to established enterprises seeking to innovate.
+              Based in Jorhat, Assam, we've helped many businesses transform their digital presence, from startups looking to make their mark to established enterprises seeking to innovate.
             </p>
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
@@ -149,7 +149,7 @@ const About: React.FC = () => {
           {[
             { key: 'projects', suffix: '+', label: 'Projects Delivered', icon: '🚀' },
             { key: 'clients', suffix: '+', label: 'Happy Clients', icon: '😊' },
-            { key: 'years', suffix: '+', label: 'Years Experience', icon: '⭐' },
+            { key: 'years', suffix: ' yr+', label: 'Experience', icon: '⭐' },
             { key: 'support', suffix: '/7', label: 'Support', icon: '🛟' },
           ].map((stat, index) => (
             <div

@@ -33,8 +33,8 @@ const Hero: React.FC = () => {
 
       <div className="relative z-10 text-center px-4 md:px-6 max-w-6xl mx-auto">
         {/* Responsive Typography */}
-        <div className="mb-6 md:mb-8">
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold mb-4 leading-tight">
+        <div className="mb-4 md:mb-8">
+          <h1 className="text-6xl md:text-6xl lg:text-8xl font-bold mb-4 md:mb-6 leading-tight">
             <span className="text-white">We Create</span>
             <br />
             <span className="relative">
@@ -49,7 +49,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Responsive Subtitle */}
-        <p className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
+        <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 md:mb-10 max-w-3xl mx-auto leading-relaxed px-2">
           Transforming ideas into stunning digital realities through cutting-edge design and development
         </p>
 
@@ -81,22 +81,7 @@ const Hero: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile-Optimized Stats Cards */}
-      <div className="absolute bottom-10 md:bottom-20 left-1/2 transform -translate-x-1/2 hidden sm:flex flex-wrap justify-center gap-4 md:gap-8 max-w-4xl">
-        {[
-          { number: '150+', text: 'Projects' },
-          { number: '50+', text: 'Clients' },
-          { number: '5+', text: 'Years' },
-        ].map((stat, index) => (
-          <div
-            key={index}
-            className="bg-white/10 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-6 text-center border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105"
-          >
-            <div className="text-lg md:text-2xl font-bold text-cyan-400 mb-1 md:mb-2">{stat.number}</div>
-            <div className="text-gray-300 text-xs md:text-sm">{stat.text}</div>
-          </div>
-        ))}
-      </div>
+      
     </section>
   );
 };

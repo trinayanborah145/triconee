@@ -197,9 +197,9 @@ const Testimonials: React.FC = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 animate-on-scroll">
           {[
-            { number: '50+', label: 'Happy Clients', icon: '😊' },
+            { number: '10+', label: 'Happy Clients', icon: '😊' },
             { number: '98%', label: 'Satisfaction Rate', icon: '⭐' },
-            { number: '150+', label: 'Projects Completed', icon: '🚀' },
+            { number: '15+', label: 'Projects Completed', icon: '🚀' },
             { number: '5/5', label: 'Average Rating', icon: '💯' },
           ].map((stat, index) => (
             <div

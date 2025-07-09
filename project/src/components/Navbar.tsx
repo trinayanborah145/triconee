@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Triangle } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,13 +30,13 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Triangle className="h-8 w-8 text-cyan-400" />
+            <img src="/image/tricone-logo.jpg" alt="Tricone Logo" className="h-10 w-auto" />
             <span className="text-xl font-bold text-white">Tricone Digital Services</span>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {['home', 'about', 'services', 'portfolio', 'process', 'testimonials', 'blog', 'contact'].map((item) => (
+            {['home', 'about', 'services', 'portfolio', 'process', 'testimonials', 'contact'].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item)}
@@ -59,7 +60,7 @@ const Navbar: React.FC = () => {
         {isOpen && (
           <div className="md:hidden mt-4 pb-4">
             <div className="flex flex-col space-y-4">
-              {['home', 'about', 'services', 'portfolio', 'process', 'testimonials', 'blog', 'contact'].map((item) => (
+              {['home', 'about', 'services', 'portfolio', 'process', 'testimonials', 'contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}

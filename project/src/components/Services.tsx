@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Globe, Code, Palette, Smartphone, Search, Shield } from 'lucide-react';
+import { Globe, Code, Palette, Smartphone, Search, Shield, LayoutDashboard } from 'lucide-react';
 
 const Services: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -39,9 +39,9 @@ const Services: React.FC = () => {
     },
     {
       icon: Smartphone,
-      title: 'Mobile Apps',
-      description: 'Native and cross-platform mobile applications for iOS and Android.',
-      features: ['React Native', 'Flutter', 'iOS Native', 'Android Native'],
+      title: 'Conversion Landing Pages',
+      description: 'High-converting landing pages designed to maximize your lead generation and sales.',
+      features: ['A/B Testing', 'Mobile-Optimized', 'Fast Loading', 'High Conversion'],
       color: 'from-purple-400 to-pink-500'
     },
     {

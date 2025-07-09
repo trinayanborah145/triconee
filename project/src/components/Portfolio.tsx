@@ -1,10 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Github, Eye } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  features: string[];
+  image: string;
+  year: string;
+  location?: string;
+  client?: string;
+}
 
 const Portfolio: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const [filter, setFilter] = useState('all');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,66 +35,66 @@ const Portfolio: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  const projects = [
+  const projects: Project[] = [
     {
       id: 1,
+      title: 'Room Editors',
+      category: 'residential',
+      description: 'Modern Website for Room Editors, Famous Interior Design business of Assam',
+      features: ['Custom Interiors', 'Space Planning', 'Luxury Design'],
+      image: 'https://images.pexels.com/photos/5824891/pexels-photo-5824891.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      year: '2024',
+      location: 'Guwahati, Assam'
+    },
+    {
+      id: 2,
       title: 'E-commerce Platform',
       category: 'web',
       description: 'Modern e-commerce solution with advanced analytics and AI recommendations.',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      features: ['React', 'Node.js', 'MongoDB', 'Stripe'],
       image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
       year: '2024',
       client: 'TechMart'
     },
     {
-      id: 2,
-      title: 'Healthcare Dashboard',
-      category: 'web',
-      description: 'Comprehensive healthcare management system with real-time monitoring.',
-      technologies: ['Vue.js', 'Python', 'PostgreSQL', 'D3.js'],
-      image: 'https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800',
-      year: '2024',
-      client: 'MedTech Solutions'
-    },
-    {
       id: 3,
-      title: 'Fitness Mobile App',
-      category: 'mobile',
-      description: 'AI-powered fitness tracking app with personalized workout plans.',
-      technologies: ['React Native', 'Firebase', 'TensorFlow', 'Stripe'],
-      image: 'https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=800',
+      title: 'Cozy Bedroom Retreat',
+      category: 'residential',
+      description: 'Warm and inviting bedroom with custom storage solutions.',
+      features: ['Custom Wardrobes', 'Mood Lighting', 'Textured Finishes'],
+      image: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       year: '2023',
-      client: 'FitLife'
+      location: 'Chicago, IL'
     },
     {
       id: 4,
-      title: 'Financial Dashboard',
-      category: 'web',
-      description: 'Real-time financial analytics platform with advanced data visualization.',
-      technologies: ['Angular', 'C#', 'SQL Server', 'Chart.js'],
-      image: 'https://images.pexels.com/photos/3184299/pexels-photo-3184299.jpeg?auto=compress&cs=tinysrgb&w=800',
+      title: 'Gourmet Kitchen',
+      category: 'residential',
+      description: 'High-end kitchen design with premium appliances and custom cabinetry.',
+      features: ['Premium Appliances', 'Custom Cabinetry', 'Stone Countertops'],
+      image: 'https://images.pexels.com/photos/1115804/pexels-photo-1115804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       year: '2023',
-      client: 'FinanceHub'
+      location: 'Miami, FL'
     },
     {
       id: 5,
-      title: 'Travel Booking App',
-      category: 'mobile',
-      description: 'Seamless travel booking experience with integrated payment processing.',
-      technologies: ['Flutter', 'Node.js', 'MongoDB', 'PayPal'],
-      image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800',
+      title: 'Wellness Center',
+      category: 'commercial',
+      description: 'Serene wellness space designed for relaxation and rejuvenation.',
+      features: ['Ambient Lighting', 'Natural Materials', 'Tranquil Color Palette'],
+      image: 'https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       year: '2023',
-      client: 'WanderLust'
+      location: 'Austin, TX'
     },
     {
       id: 6,
-      title: 'Restaurant Management',
-      category: 'web',
-      description: 'Complete restaurant management system with POS integration.',
-      technologies: ['React', 'Express', 'MySQL', 'Socket.io'],
-      image: 'https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg?auto=compress&cs=tinysrgb&w=800',
-      year: '2022',
-      client: 'FoodChain'
+      title: 'Luxury Penthouse',
+      category: 'residential',
+      description: 'Stunning penthouse with panoramic views and high-end finishes.',
+      features: ['Panoramic Windows', 'Smart Home Integration', 'Premium Materials'],
+      image: 'https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      year: '2024',
+      location: 'Los Angeles, CA'
     }
   ];
 
@@ -93,9 +104,15 @@ const Portfolio: React.FC = () => {
 
   const categories = [
     { id: 'all', name: 'All Projects' },
-    { id: 'web', name: 'Web Apps' },
-    { id: 'mobile', name: 'Mobile Apps' },
+    { id: 'residential', name: 'Residential' },
+    { id: 'commercial', name: 'Commercial' },
   ];
+  
+  const handleProjectClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open('https://rroomedditors.netlify.app/', '_blank');
+  };
 
   return (
     <section id="portfolio" ref={sectionRef} className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
@@ -108,10 +125,10 @@ const Portfolio: React.FC = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16 animate-on-scroll">
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Portfolio</span>
+            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Designs</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Explore our latest projects and see how we've helped businesses transform their digital presence.
+            Discover our latest interior design projects and let us transform your space into something extraordinary.
           </p>
         </div>
 
@@ -134,72 +151,65 @@ const Portfolio: React.FC = () => {
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group animate-on-scroll bg-white/5 backdrop-blur-md rounded-2xl overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-500 transform hover:scale-105"
+              onClick={handleProjectClick}
+              className="group animate-on-scroll bg-white/5 backdrop-blur-md rounded-2xl overflow-hidden border border-white/10 hover:bg-amber-500/10 transition-all duration-300 transform hover:scale-105 cursor-pointer flex flex-col h-full"
             >
               {/* Project Image */}
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden h-64 flex-shrink-0">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                {/* Overlay Actions */}
-                <div className="absolute inset-0 flex items-center justify-center space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button
-                    onClick={() => setSelectedProject(project.id)}
-                    className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-all duration-200"
-                  >
-                    <Eye size={20} />
-                  </button>
-                  <button className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-all duration-200">
-                    <ExternalLink size={20} />
-                  </button>
-                  <button className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-all duration-200">
-                    <Github size={20} />
-                  </button>
-                </div>
               </div>
 
-              {/* Project Info */}
-              <div className="p-6">
+              {/* Project Info - Always visible */}
+              <div className="p-6 flex-grow flex flex-col">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-cyan-400 font-semibold">{project.year}</span>
-                  <span className="text-sm text-gray-400">{project.client}</span>
+                  <span className="text-sm text-amber-400 font-semibold">{project.year}</span>
+                  <span className="text-sm text-gray-400">{project.location}</span>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-2">
                   {project.title}
                 </h3>
-                <p className="text-gray-300 mb-4 leading-relaxed">
+                <p className="text-gray-300 text-sm mb-4">
                   {project.description}
                 </p>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech, techIndex) => (
-                    <span
-                      key={techIndex}
-                      className="px-3 py-1 bg-white/10 text-gray-300 rounded-full text-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                <div className="mt-auto">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {project.features.map((feature, featureIndex) => (
+                      <span
+                        key={featureIndex}
+                        className="px-3 py-1 bg-white/10 text-white rounded-full text-xs hover:bg-amber-500/30 transition-colors duration-200"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="text-amber-400 text-sm font-medium group-hover:translate-x-1 transition-transform duration-300">
+                    View Project →
+                  </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* View More Button */}
+        {/* Visit Website Button */}
         <div className="text-center mt-16 animate-on-scroll">
-          <button className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full text-white font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300">
-            <span className="relative z-10">View All Projects</span>
+          <a 
+            href="https://rroomedditors.netlify.app/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-block group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-700 rounded-full text-white font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300"
+          >
+            <span className="relative z-10">Visit Our Website</span>
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-          </button>
+          </a>
         </div>
       </div>
 
