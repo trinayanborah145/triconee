@@ -81,14 +81,14 @@ const Hero: React.FC = () => {
 
       <div className="relative z-10 text-center px-4 md:px-6 max-w-6xl mx-auto w-full">
         {/* Responsive Typography */}
-        <div className="mb-6 md:mb-10">
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-5 md:mb-7 leading-tight min-h-[9rem] md:min-h-[11rem] flex items-center justify-center" style={{ willChange: 'contents' }}>
+        <div className="mb-4 md:mb-10">
+          <h1 className="text-5xl sm:text-6xl md:text-5xl lg:text-7xl font-bold mb-3 md:mb-7 leading-tight min-h-[7rem] sm:min-h-[10rem] md:min-h-[11rem] flex items-center justify-center" style={{ willChange: 'contents' }}>
             <span className="relative whitespace-pre-line">
-              <span className="text-white">
+              <span className="text-white text-5xl sm:text-6xl md:text-5xl lg:text-7xl">
                 {displayText.replace(/\n.*$/, '')}
               </span>
               <span className="relative inline-block transition-all duration-300 ease-in-out">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 text-5xl sm:text-6xl md:text-5xl lg:text-7xl">
                   {displayText.includes('\n') ? displayText.split('\n').pop() : ''}
                 </span>
                 <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 blur-2xl opacity-20 transition-all duration-500"></span>
@@ -99,15 +99,15 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Responsive Subtitle */}
-        <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-12 md:mb-16 max-w-3xl mx-auto leading-relaxed px-2 mt-8">
+        <p className="text-base sm:text-xl lg:text-2xl text-gray-300 mb-6 md:mb-16 max-w-3xl mx-auto leading-relaxed px-2 mt-4">
           Transforming ideas into stunning digital realities through cutting-edge design and development
         </p>
 
         {/* Responsive CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center px-4 mt-4">
+        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center px-2 mt-2 mb-2">
           <button
             onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full sm:w-auto group relative px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full text-white font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300"
+            className="w-full sm:w-auto group relative px-8 py-4 md:px-8 md:py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full text-white text-lg font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300"
           >
             <span className="relative z-10">View Our Work</span>
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
@@ -115,7 +115,7 @@ const Hero: React.FC = () => {
           
           <button
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 border-2 border-cyan-400 text-cyan-400 rounded-full font-semibold hover:bg-cyan-400 hover:text-black transition-all duration-300 backdrop-blur-sm"
+            className="w-full sm:w-auto px-8 py-4 md:px-8 md:py-4 border-2 border-cyan-400 text-cyan-400 text-lg rounded-full font-semibold hover:bg-cyan-400 hover:text-black transition-all duration-300 backdrop-blur-sm"
           >
             Start Your Project
           </button>
@@ -126,7 +126,7 @@ const Hero: React.FC = () => {
           onClick={scrollToAbout}
           className="animate-bounce text-cyan-400 hover:text-cyan-300 transition-colors duration-200"
         >
-          <ChevronDown size={24} className="md:hidden" />
+          <ChevronDown size={28} className="md:hidden" />
           <ChevronDown size={32} className="hidden md:block" />
         </button>
       </div>
