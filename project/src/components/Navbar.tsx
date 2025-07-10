@@ -24,14 +24,11 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-      scrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
-    }`}>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <img src="/image/tricone-logo.jpg" alt="Tricone Logo" className="h-10 w-auto" />
-            <span className="text-xl font-bold text-white">Tricone Digital Services</span>
+            <img src="/image/TRICONE__1_-removebg-preview.png" alt="Tricone Logo" className="h-28 w-auto" />
           </div>
 
           {/* Desktop Navigation */}
@@ -41,6 +38,7 @@ const Navbar: React.FC = () => {
                 key={item}
                 onClick={() => scrollToSection(item)}
                 className="text-gray-300 hover:text-cyan-400 transition-colors duration-200 capitalize"
+                style={{ willChange: 'color' }}
               >
                 {item}
               </button>
@@ -65,6 +63,7 @@ const Navbar: React.FC = () => {
                   key={item}
                   onClick={() => scrollToSection(item)}
                   className="text-gray-300 hover:text-cyan-400 transition-colors duration-200 capitalize text-left"
+                  style={{ willChange: 'color' }}
                 >
                   {item}
                 </button>

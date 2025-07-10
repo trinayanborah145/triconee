@@ -9,53 +9,53 @@ const Testimonials: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      name: 'Jennifer Martinez',
-      role: 'CEO, TechStart',
-      company: 'TechStart Inc.',
+      name: 'Priya Sharma',
+      role: 'CEO, TechVista',
+      company: 'TechVista Solutions',
       image: 'https://images.pexels.com/photos/3785090/pexels-photo-3785090.jpeg?auto=compress&cs=tinysrgb&w=400',
-      text: 'Digital Nexus transformed our outdated website into a modern, responsive platform that increased our conversions by 300%. Their attention to detail and innovative approach exceeded our expectations.',
+      text: 'Digital Nexus transformed our e-commerce platform with a modern, responsive design that boosted our sales by 300%. Their innovative approach and attention to detail were exceptional.',
       rating: 5,
       project: 'E-commerce Platform'
     },
     {
       id: 2,
-      name: 'Robert Chen',
-      role: 'Founder, HealthTech',
-      company: 'HealthTech Solutions',
+      name: 'Rahul Kapoor',
+      role: 'Founder, ArogyaMitra',
+      company: 'ArogyaMitra Healthcare',
       image: 'https://images.pexels.com/photos/3785091/pexels-photo-3785091.jpeg?auto=compress&cs=tinysrgb&w=400',
-      text: 'Working with Digital Nexus was a game-changer for our healthcare platform. They delivered a secure, scalable solution that our users love. The team is incredibly professional and knowledgeable.',
+      text: 'The healthcare management system developed by Digital Nexus has been transformative for our hospital chain. Their team delivered a secure, scalable solution that our doctors and patients love.',
       rating: 5,
-      project: 'Healthcare Dashboard'
+      project: 'Healthcare Management System'
     },
     {
       id: 3,
-      name: 'Amanda Foster',
-      role: 'Marketing Director, FitLife',
-      company: 'FitLife Wellness',
+      name: 'Ananya Reddy',
+      role: 'Marketing Head, FitDesi',
+      company: 'FitDesi Wellness',
       image: 'https://images.pexels.com/photos/3785092/pexels-photo-3785092.jpeg?auto=compress&cs=tinysrgb&w=400',
-      text: 'The mobile app they developed for us is absolutely fantastic. User engagement increased by 250% after launch. Their expertise in mobile development is unmatched.',
+      text: 'Our yoga and fitness app saw a 250% increase in user engagement after Digital Nexus revamped it. Their understanding of the Indian fitness market is remarkable.',
       rating: 5,
       project: 'Fitness Mobile App'
     },
     {
       id: 4,
-      name: 'Michael Thompson',
-      role: 'CTO, FinanceHub',
-      company: 'FinanceHub Corp',
+      name: 'Vikram Mehta',
+      role: 'CTO, DhanVriksha',
+      company: 'DhanVriksha Finance',
       image: 'https://images.pexels.com/photos/3785093/pexels-photo-3785093.jpeg?auto=compress&cs=tinysrgb&w=400',
-      text: 'Digital Nexus delivered a complex financial dashboard ahead of schedule. Their technical expertise and project management skills are outstanding. Highly recommended!',
+      text: 'Digital Nexus delivered our financial services dashboard ahead of schedule. Their fintech expertise and understanding of Indian banking regulations made them the perfect partner for our digital transformation.',
       rating: 5,
-      project: 'Financial Dashboard'
+      project: 'Financial Services Dashboard'
     },
     {
       id: 5,
-      name: 'Sarah Wilson',
-      role: 'Owner, WanderLust',
-      company: 'WanderLust Travel',
-      image: 'https://images.pexels.com/photos/3785094/pexels-photo-3785094.jpeg?auto=compress&cs=tinysrgb&w=400',
-      text: 'Our travel booking app has been a huge success thanks to Digital Nexus. The user interface is intuitive and the booking process is seamless. Our customers love it!',
+      name: 'Rohan Malhotra',
+      role: 'Director, BharatYatra',
+      company: 'BharatYatra Holidays',
+      image: 'https://images.pexels.com/photos/3785093/pexels-photo-3785093.jpeg?auto=compress&cs=tinysrgb&w=400',
+      text: 'Our travel booking platform has revolutionized how Indians plan their vacations. Digital Nexus created an intuitive interface that works seamlessly across all devices, even in low-network areas.',
       rating: 5,
-      project: 'Travel Booking App'
+      project: 'Travel Booking Platform'
     }
   ];
 
@@ -64,7 +64,10 @@ const Testimonials: React.FC = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
+            const target = entry.target as HTMLElement;
+            target.classList.add('animate-fade-in-up');
+            target.style.willChange = 'transform, opacity';
+            observer.unobserve(target);
           }
         });
       },
@@ -74,7 +77,9 @@ const Testimonials: React.FC = () => {
     const elements = sectionRef.current?.querySelectorAll('.animate-on-scroll');
     elements?.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+        elements?.forEach((el) => observer.unobserve(el));
+    };
   }, []);
 
   useEffect(() => {
@@ -105,9 +110,9 @@ const Testimonials: React.FC = () => {
   return (
     <section id="testimonials" ref={sectionRef} className="py-20 bg-black relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-40 left-40 w-96 h-96 bg-cyan-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-40 right-40 w-80 h-80 bg-blue-400 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 opacity-10" style={{ willChange: 'opacity' }}>
+        <div className="absolute top-40 left-40 w-96 h-96 bg-cyan-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
+        <div className="absolute bottom-40 right-40 w-80 h-80 bg-blue-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -122,7 +127,7 @@ const Testimonials: React.FC = () => {
 
         {/* Main Testimonial */}
         <div className="relative max-w-4xl mx-auto animate-on-scroll">
-          <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/10 relative overflow-hidden">
+          <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/10 relative overflow-hidden" style={{ willChange: 'transform, opacity' }}>
             {/* Quote Icon */}
             <div className="absolute top-6 left-6 text-cyan-400 opacity-50">
               <Quote size={40} />
@@ -134,7 +139,9 @@ const Testimonials: React.FC = () => {
                 <img
                   src={testimonials[currentSlide].image}
                   alt={testimonials[currentSlide].name}
+                  loading="lazy"
                   className="w-16 h-16 rounded-full object-cover mr-4"
+                  style={{ willChange: 'transform' }}
                 />
                 <div>
                   <h3 className="text-xl font-bold text-white">{testimonials[currentSlide].name}</h3>

@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
-import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import Portfolio from './components/Portfolio';
-import Process from './components/Process';
-import Testimonials from './components/Testimonials';
-import Contact from './components/Contact';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import LoadingAnimation from './components/LoadingAnimation';
 import CustomCursor from './components/CustomCursor';
-import ParticleBackground from './components/ParticleBackground';
+
+const Hero = lazy(() => import('./components/Hero'));
+const About = lazy(() => import('./components/About'));
+const Services = lazy(() => import('./components/Services'));
+const Portfolio = lazy(() => import('./components/Portfolio'));
+const Process = lazy(() => import('./components/Process'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const Contact = lazy(() => import('./components/Contact'));
+const ParticleBackground = lazy(() => import('./components/ParticleBackground'));
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -56,15 +57,17 @@ function App() {
   return (
     <div className="bg-gray-900 text-white overflow-x-hidden">
       {!isMobile && <CustomCursor position={cursorPosition} />}
-      {!isMobile && <ParticleBackground />}
       <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Portfolio />
-      <Process />
-      <Testimonials />
-      <Contact />
+      <Suspense fallback={<LoadingAnimation />}>
+        {!isMobile && <ParticleBackground />}
+        <Hero />
+        <About />
+        <Services />
+        <Portfolio />
+        <Process />
+        <Testimonials />
+        <Contact />
+      </Suspense>
     </div>
   );
 }

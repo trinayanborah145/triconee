@@ -9,7 +9,10 @@ const Team: React.FC = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
+            const target = entry.target as HTMLElement;
+            target.classList.add('animate-fade-in-up');
+            target.style.willChange = 'transform, opacity';
+            observer.unobserve(target);
           }
         });
       },
@@ -19,12 +22,14 @@ const Team: React.FC = () => {
     const elements = sectionRef.current?.querySelectorAll('.animate-on-scroll');
     elements?.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+      elements?.forEach((el) => observer.unobserve(el));
+    };
   }, []);
 
   const teamMembers = [
     {
-      name: 'Alex Chen',
+      name: 'Rahul Khanna',
       role: 'CEO & Lead Developer',
       image: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=400',
       bio: 'Full-stack developer with 8+ years of experience in building scalable web applications.',
@@ -37,7 +42,7 @@ const Team: React.FC = () => {
       }
     },
     {
-      name: 'Sarah Johnson',
+      name: 'Prachi Agarwalla',
       role: 'Creative Director',
       image: 'https://images.pexels.com/photos/3785074/pexels-photo-3785074.jpeg?auto=compress&cs=tinysrgb&w=400',
       bio: 'Award-winning designer specializing in user experience and brand identity.',
@@ -106,9 +111,9 @@ const Team: React.FC = () => {
   return (
     <section id="team" ref={sectionRef} className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-400 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 opacity-10" style={{ willChange: 'opacity' }}>
+        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -127,18 +132,21 @@ const Team: React.FC = () => {
             <div
               key={index}
               className="group animate-on-scroll bg-white/5 backdrop-blur-md rounded-2xl overflow-hidden border border-white/10 hover:bg-white/10 transition-all duration-500 transform hover:scale-105"
+              style={{ willChange: 'transform, background-color' }}
             >
               {/* Profile Image */}
               <div className="relative overflow-hidden">
                 <img
                   src={member.image}
                   alt={member.name}
+                  loading="lazy"
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                  style={{ willChange: 'transform' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 
                 {/* Social Links Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 flex items-center justify-center space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ willChange: 'opacity' }}>
                   <a
                     href={member.social.github}
                     className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-all duration-200"

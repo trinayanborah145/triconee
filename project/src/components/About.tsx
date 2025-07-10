@@ -17,60 +17,65 @@ const About: React.FC = () => {
     support: 24
   };
 
+  const animateCounters = () => {
+    let startTimestamp: number | null = null;
+    const duration = 2000; // 2 seconds
+
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+
+      setCounters({
+        projects: Math.floor(progress * targetValues.projects),
+        clients: Math.floor(progress * targetValues.clients),
+        years: Math.floor(progress * targetValues.years),
+        support: Math.floor(progress * targetValues.support),
+      });
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      } else {
+        setCounters(targetValues); // Ensure final values are exact
+      }
+    };
+
+    window.requestAnimationFrame(step);
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
+            const target = entry.target as HTMLElement;
+            target.classList.add('animate-fade-in-up');
+            target.style.willChange = 'transform, opacity';
             
-            // Start counter animation when stats section comes into view
-            if (entry.target.classList.contains('stats-section')) {
+            if (target.classList.contains('stats-section')) {
               animateCounters();
+              // We can unobserve after animation starts to save resources
+              observer.unobserve(target);
             }
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 } // A little more of the element should be visible
     );
 
     const elements = sectionRef.current?.querySelectorAll('.animate-on-scroll');
     elements?.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+      elements?.forEach((el) => observer.unobserve(el));
+    };
   }, []);
-
-  const animateCounters = () => {
-    const duration = 2000; // 2 seconds
-    const steps = 60; // 60 steps for smooth animation
-    const stepDuration = duration / steps;
-
-    let currentStep = 0;
-
-    const timer = setInterval(() => {
-      currentStep++;
-      const progress = currentStep / steps;
-
-      setCounters({
-        projects: Math.floor(targetValues.projects * progress),
-        clients: Math.floor(targetValues.clients * progress),
-        years: Math.floor(targetValues.years * progress),
-        support: Math.floor(targetValues.support * progress)
-      });
-
-      if (currentStep >= steps) {
-        clearInterval(timer);
-        setCounters(targetValues); // Ensure final values are exact
-      }
-    }, stepDuration);
-  };
 
   return (
     <section id="about" ref={sectionRef} className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-cyan-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-400 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 opacity-10" style={{ willChange: 'opacity' }}>
+        <div className="absolute top-20 left-20 w-96 h-96 bg-cyan-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">

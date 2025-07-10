@@ -22,7 +22,10 @@ const Portfolio: React.FC = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
+            const target = entry.target as HTMLElement;
+            target.classList.add('animate-fade-in-up');
+            target.style.willChange = 'transform, opacity';
+            observer.unobserve(target);
           }
         });
       },
@@ -32,7 +35,9 @@ const Portfolio: React.FC = () => {
     const elements = sectionRef.current?.querySelectorAll('.animate-on-scroll');
     elements?.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+      elements?.forEach((el) => observer.unobserve(el));
+    };
   }, []);
 
   const projects: Project[] = [
@@ -117,9 +122,9 @@ const Portfolio: React.FC = () => {
   return (
     <section id="portfolio" ref={sectionRef} className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-purple-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-pink-400 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 opacity-10" style={{ willChange: 'opacity' }}>
+        <div className="absolute top-20 right-20 w-96 h-96 bg-purple-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-pink-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -143,6 +148,7 @@ const Portfolio: React.FC = () => {
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
                   : 'bg-white/10 text-gray-300 hover:bg-white/20'
               }`}
+              style={{ willChange: 'background-color, color' }}
             >
               {category.name}
             </button>
@@ -156,13 +162,16 @@ const Portfolio: React.FC = () => {
               key={project.id}
               onClick={handleProjectClick}
               className="group animate-on-scroll bg-white/5 backdrop-blur-md rounded-2xl overflow-hidden border border-white/10 hover:bg-amber-500/10 transition-all duration-300 transform hover:scale-105 cursor-pointer flex flex-col h-full"
+              style={{ willChange: 'transform, background-color' }}
             >
               {/* Project Image */}
               <div className="relative overflow-hidden h-64 flex-shrink-0">
                 <img
                   src={project.image}
                   alt={project.title}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  style={{ willChange: 'transform' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
@@ -199,16 +208,22 @@ const Portfolio: React.FC = () => {
           ))}
         </div>
 
-        {/* Visit Website Button */}
+        {/* Get Your Site Button - WhatsApp */}
         <div className="text-center mt-16 animate-on-scroll">
           <a 
-            href="https://rroomedditors.netlify.app/" 
+            href="https://wa.me/918474076850?text=Hey%20I've%20came%20from%20your%20website%20and%20I%20want%20a%20website%20for%20my%20business" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-block group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-700 rounded-full text-white font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300"
+            className="inline-block group relative px-8 py-4 bg-gradient-to-r from-green-500 to-green-600 rounded-full text-white font-semibold overflow-hidden transform hover:scale-105 transition-all duration-300"
+            style={{ willChange: 'transform' }}
           >
-            <span className="relative z-10">Visit Our Website</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.498 14.382v3.3a1 1 0 0 1-1.364.949c-1.24-.45-4.5-2.3-6.886-4.5-2.4-2.2-3.436-4.3-3.9-5.5a1 1 0 0 1 .3-1.1l2.5-2.5a1 1 0 0 1 1.414 0l1.8 1.8a1 1 0 0 1 0 1.414l-.7.7a.25.25 0 0 0 0 .354l2.1 2.1a.25.25 0 0 0 .354 0l.7-.7a1 1 0 0 1 1.414 0l1.8 1.8a1 1 0 0 1 0 1.414l-1.1 1.1a.25.25 0 0 0 0 .354l1.1 1.1a1 1 0 0 1 0 1.414l-1.1 1.1z"/>
+              </svg>
+              Get Your Site
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-green-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
           </a>
         </div>
       </div>

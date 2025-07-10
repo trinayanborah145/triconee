@@ -1,27 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Lightbulb, PenTool, Code, Rocket, TestTube, Users } from 'lucide-react';
+import styles from './Process.module.css';
 
 const Process: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Intersection Observer for animations
+  // Intersection Observer for animations with glowing effect
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const target = entry.target as HTMLElement;
+          const icon = target.querySelector(`.${styles.stepIcon}`);
+
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
+            if (!target.classList.contains('animate-fade-in-up')) {
+              target.classList.add('animate-fade-in-up');
+              target.style.willChange = 'transform, opacity';
+            }
+            if (icon) {
+              icon.classList.add(styles.glowEffect);
+            }
+          } else {
+            if (icon) {
+              icon.classList.remove(styles.glowEffect);
+            }
           }
         });
       },
-      { threshold: 0.1 }
+      {
+        threshold: 0.3,
+        rootMargin: '-50px 0px -50px 0px' // Adjust this to control when the glow activates
+      }
     );
 
-    const elements = sectionRef.current?.querySelectorAll('.animate-on-scroll');
+    const elements = sectionRef.current?.querySelectorAll('.process-step');
     elements?.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+      elements?.forEach((el) => observer.unobserve(el));
+    };
   }, []);
 
   // Scroll progress calculation
@@ -116,9 +135,9 @@ const Process: React.FC = () => {
   return (
     <section id="process" ref={sectionRef} className="py-20 bg-black relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-40 left-1/4 w-96 h-96 bg-cyan-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-40 right-1/4 w-80 h-80 bg-blue-400 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 opacity-10" style={{ willChange: 'opacity' }}>
+        <div className="absolute top-40 left-1/4 w-96 h-96 bg-cyan-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
+        <div className="absolute bottom-40 right-1/4 w-80 h-80 bg-blue-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -136,20 +155,21 @@ const Process: React.FC = () => {
           {/* Vertical Line with Progress */}
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-white/20 hidden lg:block overflow-hidden">
             <div 
-              className="absolute bottom-0 left-0 w-full bg-gradient-to-b from-cyan-400 to-blue-500 transition-all duration-100 ease-out origin-bottom"
+              className="absolute top-0 left-0 w-full bg-gradient-to-b from-cyan-400 to-blue-500 transition-all duration-100 ease-out origin-top"
               style={{
                 height: `${Math.min(100, Math.max(0, scrollProgress * 100))}%`,
-                transform: `scaleY(${scrollProgress})`,
               }}
             ></div>
           </div>
+
+
 
           {/* Process Steps */}
           <div className="space-y-16">
             {steps.map((step, index) => (
               <div
                 key={index}
-                className={`flex flex-col lg:flex-row items-center gap-8 animate-on-scroll ${
+                className={`flex flex-col lg:flex-row items-center gap-8 ${styles.processStep} transition-all duration-500 ${
                   index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
                 }`}
               >
@@ -170,12 +190,12 @@ const Process: React.FC = () => {
                 </div>
 
                 {/* Step Number & Icon */}
-                <div className="relative flex-shrink-0">
-                  <div className="w-24 h-24 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center relative z-10">
+                <div className="relative flex-shrink-0 transition-all duration-500">
+                  <div className={`${styles.stepIcon} w-24 h-24 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center relative z-10`}>
                     <step.icon className="text-white" size={32} />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-lg opacity-50 animate-pulse"></div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-white text-black rounded-full flex items-center justify-center text-sm font-bold">
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-lg opacity-50 animate-pulse transition-all duration-500"></div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-white text-black rounded-full flex items-center justify-center text-sm font-bold z-20">
                     {step.number}
                   </div>
                 </div>

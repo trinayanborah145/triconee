@@ -1,20 +1,25 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const ParticleBackground: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Check if device is mobile
-    const isMobile = window.innerWidth < 768;
-    
-    // Reduce particles on mobile for better performance
-    const particleCount = isMobile ? 15 : 50;
+    const particleCount = 50;
     
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -33,9 +38,9 @@ const ParticleBackground: React.FC = () => {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.5),
-        vy: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.5),
-        size: Math.random() * (isMobile ? 1.5 : 2) + 1,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 2 + 1,
         opacity: Math.random() * 0.3 + 0.1,
       });
     }
@@ -63,10 +68,7 @@ const ParticleBackground: React.FC = () => {
       animationId = requestAnimationFrame(animate);
     };
 
-    // Only animate if not on mobile or if user prefers motion
-    if (!isMobile || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      animate();
-    }
+    animate();
 
     const handleResize = () => {
       canvas.width = window.innerWidth;
@@ -81,13 +83,17 @@ const ParticleBackground: React.FC = () => {
         cancelAnimationFrame(animationId);
       }
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: window.innerWidth < 768 ? 0.1 : 0.3 }}
+      style={{ opacity: 0.3 }}
     />
   );
 };

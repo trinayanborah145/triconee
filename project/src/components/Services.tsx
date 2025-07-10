@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Globe, Code, Palette, Smartphone, Search, Shield, LayoutDashboard } from 'lucide-react';
+import { Globe, Code, Palette, Smartphone, Search, Shield } from 'lucide-react';
 
 const Services: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -9,17 +9,22 @@ const Services: React.FC = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
+            const target = entry.target as HTMLElement;
+            target.classList.add('animate-fade-in-up');
+            target.style.willChange = 'transform, opacity';
+            observer.unobserve(target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
 
     const elements = sectionRef.current?.querySelectorAll('.animate-on-scroll');
     elements?.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+      elements?.forEach((el) => observer.unobserve(el));
+    };
   }, []);
 
   const services = [
@@ -70,9 +75,9 @@ const Services: React.FC = () => {
   return (
     <section id="services" ref={sectionRef} className="py-20 bg-black relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-40 left-40 w-96 h-96 bg-cyan-400 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-40 right-40 w-80 h-80 bg-blue-400 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 opacity-10" style={{ willChange: 'opacity' }}>
+        <div className="absolute top-40 left-40 w-96 h-96 bg-cyan-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
+        <div className="absolute bottom-40 right-40 w-80 h-80 bg-blue-400 rounded-full blur-3xl" style={{ willChange: 'transform' }}></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -90,14 +95,15 @@ const Services: React.FC = () => {
             <div
               key={index}
               className="group animate-on-scroll bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2"
+              style={{ willChange: 'transform, background-color' }}
             >
               {/* Icon */}
-              <div className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+              <div className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`} style={{ willChange: 'transform' }}>
                 <service.icon className="text-white" size={32} />
               </div>
 
               {/* Content */}
-              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors duration-300">
+              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors duration-300" style={{ willChange: 'color' }}>
                 {service.title}
               </h3>
               <p className="text-gray-300 mb-6 leading-relaxed">
